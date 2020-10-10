@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Colors } from 'utils/Colors';
+import { Field } from 'formik';
 
 interface Props {
   title?: string;
   name?: string;
   placeholder?: string;
+  type?: string;
 }
 
-export const InputField = React.memo<Props>(({ title, name, placeholder }) => {
+export const InputField = React.memo<Props>(({ title, name, type, placeholder }) => {
   return (
     <Container>
       <Title>{title}</Title>
-      <Input name={name} placeholder={placeholder} />
+      <Input type={type} name={name} placeholder={placeholder} />
     </Container>
   );
 });
@@ -23,7 +25,7 @@ const Title = styled.div`
   font-size: 14px;
 `;
 
-const Input = styled.input`
+const Input = styled(Field)`
   outline: none;
   border-radius: 3px;
   border: 1px solid ${Colors.gray};
