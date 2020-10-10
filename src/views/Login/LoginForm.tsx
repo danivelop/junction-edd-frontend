@@ -11,9 +11,9 @@ export const LoginForm = React.memo(() => {
     <Container>
       <Title>로그인</Title>
       <Spacing top={30} />
-      <InputField title="이메일" placeholder="이메일 ( abc@prosentation.kr )" />
+      <InputField name="username" title="이메일" placeholder="이메일 ( abc@prosentation.kr )" />
       <Spacing top={20} />
-      <InputField title="비밀번호" placeholder="비밀번호를 입력해주세요." />
+      <InputField type="password" name="password" title="비밀번호" placeholder="비밀번호를 입력해주세요." />
       <Spacing top={60} />
       <Button color={ButtonColor.ORANGE}>로그인</Button>
       <Spacing top={40} />
@@ -21,7 +21,9 @@ export const LoginForm = React.memo(() => {
       <Spacing top={40} />
       <Divider />
       <Spacing top={30} />
-      <Button color={ButtonColor.LIGHT_ORANGE}>간편가입하기</Button>
+      <Button type="submit" color={ButtonColor.LIGHT_ORANGE}>
+        간편가입하기
+      </Button>
     </Container>
   );
 });

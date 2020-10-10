@@ -8,12 +8,13 @@ type ButtonColor = 'ORANGE' | 'LIGHT_ORANGE';
 interface Props {
   children: React.ReactNode;
   color: ButtonColor;
+  type?: 'button' | 'submit' | 'reset';
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const Button = React.memo<Props>(({ children, color, onClick, ...restProps }) => {
+export const Button = React.memo<Props>(({ children, color, type, onClick, ...restProps }) => {
   return (
-    <StyledButton color={color} onClick={onClick} {...restProps}>
+    <StyledButton color={color} onClick={onClick} type={type} {...restProps}>
       {children}
     </StyledButton>
   );

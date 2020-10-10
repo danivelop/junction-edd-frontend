@@ -4,6 +4,8 @@ export const bgColor = '#f8f5f4';
 export const orange = '#f08449';
 export const gray = '#b3b3b5';
 export const darkGray = '#808083';
+export const gray2 = '#e3e3e3';
+export const gray3 = '#c7c7c8';
 
 export const Colors = {
   white,
@@ -12,4 +14,6 @@ export const Colors = {
   orange,
   gray,
   darkGray,
+  gray2,
+  gray3,
 };
