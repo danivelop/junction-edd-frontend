@@ -31,6 +31,7 @@
     "lint-staged": "10.0.8",
     "mobx": "6.0.1",
     "mobx-react": "7.0.0",
+    "moment": "2.29.1",
     "node-plop": "0.25.0",
     "plop": "2.6.0",
     "prettier": "2.0.1",

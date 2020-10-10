@@ -1,4 +1,4 @@
-import { action, computed, flow, observable } from 'mobx';
+import { action, flow, observable } from 'mobx';
 import axios from 'axios';
 
 interface UserFormValues {
@@ -22,10 +22,7 @@ export default class Store {
   @action
   login = flow(function* (data: UserFormValues) {
     try {
-      const response = yield axios.post(
-        'http://ec2-13-124-151-196.ap-northeast-2.compute.amazonaws.com/api/auth/login',
-        data,
-      );
+      const response = yield axios.post('/api/auth/login', data);
 
       return response;
     } catch (error) {
@@ -36,11 +33,9 @@ export default class Store {
   @action
   getDiaries = flow(function* () {
     try {
-      const response = yield axios.get(
-        'http://ec2-13-124-151-196.ap-northeast-2.compute.amazonaws.com/api/diary/diaries',
-      );
+      const response = yield axios.get('/api/diary/diaries');
 
-      console.log(response);
+      return response;
     } catch (error) {
       console.error(error);
     }
