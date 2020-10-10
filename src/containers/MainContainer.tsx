@@ -1,5 +1,6 @@
 import { Spacing } from 'components/Spacing';
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import Store from 'store/Store';
 import styled from 'styled-components';
 import { Colors } from 'utils/Colors';
@@ -8,6 +9,8 @@ import { ProductCard } from 'views/Main/ProductCard';
 
 //TODO(@kirby): + 버튼 옆에 아이콘 추가하기
 const MainContainer = React.memo(() => {
+  const history = useHistory();
+
   const store = useMemo(() => {
     return Store.getInstance();
   }, []);
@@ -16,10 +19,14 @@ const MainContainer = React.memo(() => {
     store.getDiaries();
   }, [store]);
 
+  const handleRedirect = useCallback(() => {
+    history.push('/diary');
+  }, [history]);
+
   return (
     <Container>
       <Content>
-        <StyledNavigator stepName="DIARY" />
+        <Navigator stepName="DIARY" />
         <Title>일기 리스트</Title>
         <Spacing top={20} />
         <ProductCardWrapper>
@@ -31,7 +38,7 @@ const MainContainer = React.memo(() => {
         </ProductCardWrapper>
         <Description>‘+’ 버튼을 눌러서 일기를 써보세요.</Description>
         <FooterSection>
-          <Button>+</Button>
+          <Button onClick={handleRedirect}>+</Button>
         </FooterSection>
       </Content>
     </Container>
@@ -51,11 +58,6 @@ const Content = styled.div`
   height: 720px;
   background-color: ${Colors.white};
   padding: 66px 120px 55px;
-`;
-
-const StyledNavigator = styled(Navigator)`
-  display: flex;
-  justify-content: flex-end;
 `;
 
 const Title = styled.div`

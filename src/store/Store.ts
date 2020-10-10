@@ -45,4 +45,37 @@ export default class Store {
       console.error(error);
     }
   });
+
+  @action
+  getGuess = flow(function* (trace: any[], canvasWidth: number, canvasHeight: number) {
+    try {
+      const data = JSON.stringify({
+        // "options": "enable_pre_space",
+        requests: [
+          {
+            writing_guide: {
+              width: canvasWidth,
+              height: canvasHeight,
+            },
+            ink: trace,
+            language: 'quickdraw',
+          },
+        ],
+      });
+
+      const response = yield axios.post(
+        'https://inputtools.google.com/request?ime=handwriting&app=quickdraw&dbg=1&cs=1&oe=UTF-8',
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      return response[1][0][1][0];
+    } catch (error) {
+      console.error(error);
+    }
+  });
 }
