@@ -1,5 +1,6 @@
 import { Spacing } from 'components/Spacing';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
+import Store from 'store/Store';
 import styled from 'styled-components';
 import { Colors } from 'utils/Colors';
 import { Navigator } from 'views/Main/Navigator';
@@ -7,6 +8,14 @@ import { ProductCard } from 'views/Main/ProductCard';
 
 //TODO(@kirby): + 버튼 옆에 아이콘 추가하기
 const MainContainer = React.memo(() => {
+  const store = useMemo(() => {
+    return Store.getInstance();
+  }, []);
+
+  useEffect(() => {
+    store.getDiaries();
+  }, [store]);
+
   return (
     <Container>
       <Content>

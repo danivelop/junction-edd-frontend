@@ -4,6 +4,7 @@ import { Colors } from 'utils/Colors';
 import { LoginForm } from 'views/Login/LoginForm';
 import { Formik, Form } from 'formik';
 import Store from 'store/Store';
+import { useHistory } from 'react-router-dom';
 
 interface UserFormValues {
   username: string;
@@ -11,15 +12,21 @@ interface UserFormValues {
 }
 
 const LoginContainer = React.memo(() => {
+  const history = useHistory();
+
   const store = useMemo(() => {
     return Store.getInstance();
   }, []);
 
   const handleLogin = useCallback(
-    (data: UserFormValues) => {
-      store.login(data);
+    async (data: UserFormValues) => {
+      const response = await store.login(data);
+
+      if (response.status === 200) {
+        history.push('/main');
+      }
     },
-    [store],
+    [history, store],
   );
 
   return (
