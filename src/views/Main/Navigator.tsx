@@ -31,6 +31,7 @@ export const Navigator = React.memo<Props>(({ stepName, ...restProps }) => {
 const Container = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 const Divider = styled.div`

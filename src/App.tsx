@@ -1,5 +1,5 @@
 import RouteWithHeader from 'layouts/RouteWithHeader';
-import { LandingPage, LoginPage, MainPage } from 'pages';
+import { LandingPage, LoginPage, MainPage, DrawingPage } from 'pages';
 import React from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global-styles';
@@ -12,6 +12,7 @@ const App: React.FC = () => (
         <RouteWithHeader exact path="/" component={LandingPage} />
         <RouteWithHeader exact path="/login" component={LoginPage} />
         <RouteWithHeader exact path="/main" component={MainPage} />
+        <RouteWithHeader exact path="/drawing" component={DrawingPage} />
       </Switch>
     </BrowserRouter>
   </>
