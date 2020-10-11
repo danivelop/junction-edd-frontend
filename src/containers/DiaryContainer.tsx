@@ -1,10 +1,15 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { Navigator } from 'views/Main/Navigator';
 import { Colors } from 'utils/Colors';
+import Store from 'store/Store';
 
 const DiaryContainer: React.FC = () => {
   const [content, setContent] = useState<string>('');
+
+  const store = useMemo(() => {
+    return Store.getInstance();
+  }, []);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -15,12 +20,16 @@ const DiaryContainer: React.FC = () => {
     if (content.length > 100) {
       return alert('You should put content less than 100');
     }
+
     // TODO(@daniel): PATCH /api/diary에 content담아서 날리기
-  }, [content]);
+    store.patchDiary({ content });
+  }, [content, store]);
 
   useEffect(() => {
+    store.getDiary();
+
     // TODO(@daniel): GET /api/diary날려서 초대장 확인하기
-  }, []);
+  }, [store]);
 
   return (
     <Container>
