@@ -6,6 +6,25 @@ interface UserFormValues {
   password: string;
 }
 
+type Movie = { title: string; year: string; poster: string };
+
+interface Diary {
+  id: number;
+  weather: string | null;
+  content: string | null;
+  emotion: 'angry' | 'sad' | 'tired' | 'flustered' | 'happy' | 'love' | 'joy' | null;
+  image: string | null;
+  movies: Movie[];
+}
+
+interface PatchDiary {
+  weather?: string;
+  content?: string;
+  emotion?: 'angry' | 'sad' | 'tired' | 'flustered' | 'happy' | 'love' | 'joy' | null;
+  image?: string | null;
+  movies?: Movie[];
+}
+
 export default class Store {
   static instance: Store | null = null;
 
@@ -18,6 +37,7 @@ export default class Store {
   }
 
   @observable diaries = [];
+  @observable diary: Diary | undefined = undefined;
 
   @action
   login = flow(function* (data: UserFormValues) {
@@ -36,6 +56,28 @@ export default class Store {
       const response = yield axios.get('/api/diary/diaries');
 
       return response;
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  @action
+  getDiary = flow(function* (this: Store) {
+    try {
+      const response = yield axios.get('/api/diary');
+
+      this.diary = response.data;
+
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  @action
+  patchDiary = flow(function* (this: Store, data: PatchDiary) {
+    try {
+      const response = yield axios.patch(`/api/diary/${this.diary?.id}`, data);
     } catch (error) {
       console.error(error);
     }
