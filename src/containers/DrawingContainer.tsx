@@ -1,3 +1,5 @@
+import { Button } from 'components/Button';
+import { ButtonColor } from 'components/Button/interface';
 import React, { useCallback, useMemo, useState } from 'react';
 import Store from 'store/Store';
 import styled from 'styled-components';
@@ -46,6 +48,9 @@ const DrawingContainer = React.memo(() => {
         <CanvasWrapper>
           <Canvas operations={operations} onChange={onChange} />
         </CanvasWrapper>
+        <ButtonWrapper>
+          <StyledButton color={ButtonColor.ORANGE}>다음</StyledButton>
+        </ButtonWrapper>
       </Content>
     </Container>
   );
@@ -79,6 +84,18 @@ const CanvasWrapper = styled.div`
   border: 1px solid ${Colors.gray3};
 
   margin-top: 23px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledButton = styled(Button)`
+  width: 234px;
+  height: 36px;
+  font-size: 16px;
+  margin-top: 61px;
 `;
 
 export default DrawingContainer;
