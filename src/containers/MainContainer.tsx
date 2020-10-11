@@ -1,27 +1,39 @@
 import { Spacing } from 'components/Spacing';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import Store from 'store/Store';
 import styled from 'styled-components';
 import { Colors } from 'utils/Colors';
 import { Navigator } from 'views/Main/Navigator';
-import { ProductCard } from 'views/Main/ProductCard';
+import ProductCard from 'views/Main/ProductCard';
 
 //TODO(@kirby): + 버튼 옆에 아이콘 추가하기
 const MainContainer = React.memo(() => {
   const history = useHistory();
+  const [diaries, setDiaries] = useState<any>();
 
   const store = useMemo(() => {
     return Store.getInstance();
   }, []);
 
   useEffect(() => {
-    store.getDiaries();
-  }, [store]);
+    (async () => {
+      try {
+        const { data } = await store.getDiaries();
+        setDiaries(data);
+      } catch (error) {
+        history.push('/login');
+      }
+    })();
+  }, [store, history]);
 
   const handleRedirect = useCallback(() => {
     history.push('/diary');
   }, [history]);
+
+  const renderDiaries = useCallback(() => {
+    return diaries?.map(diary => <ProductCard key={diary.id} diary={diary} />);
+  }, [diaries]);
 
   return (
     <Container>
@@ -29,13 +41,7 @@ const MainContainer = React.memo(() => {
         <Navigator stepName="DIARY" />
         <Title>일기 리스트</Title>
         <Spacing top={20} />
-        <ProductCardWrapper>
-          <ProductCard />
-          <Spacing left={60} />
-          <ProductCard />
-          <Spacing left={60} />
-          <ProductCard />
-        </ProductCardWrapper>
+        <ProductCardWrapper>{renderDiaries()}</ProductCardWrapper>
         <Description>‘+’ 버튼을 눌러서 일기를 써보세요.</Description>
         <FooterSection>
           <Button onClick={handleRedirect}>+</Button>
@@ -70,6 +76,12 @@ const Title = styled.div`
 
 const ProductCardWrapper = styled.div`
   display: flex;
+  width: 960px;
+  overflow-x: scroll;
+
+  > div + div {
+    margin-left: 60px;
+  }
 `;
 
 const Description = styled.div`
