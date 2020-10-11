@@ -110,7 +110,7 @@ export default class Store {
         },
       );
 
-      return response[1][0][1][0];
+      return response.data[1][0][1][0];
     } catch (error) {
       console.error(error);
     }

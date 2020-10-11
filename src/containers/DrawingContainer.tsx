@@ -9,13 +9,14 @@ import { Navigator } from 'views/Main/Navigator';
 
 const DrawingContainer = React.memo(() => {
   const [operations, setOperations] = useState([]);
+  const [guess, setGuess] = useState('');
 
   const store = useMemo(() => {
     return Store.getInstance();
   }, []);
 
   const onChange = useCallback(
-    (afterOperation: any) => {
+    async (afterOperation: any) => {
       setOperations(afterOperation);
 
       let trace: any[] = [];
@@ -31,11 +32,13 @@ const DrawingContainer = React.memo(() => {
         trace.push([tempX, tempY]);
       }
 
-      store.getGuess(
+      const guess = await store.getGuess(
         trace,
         document.getElementsByClassName('canvas')[0].clientWidth,
         document.getElementsByClassName('canvas')[0].clientHeight,
       );
+
+      setGuess(guess);
     },
     [store],
   );
@@ -44,13 +47,20 @@ const DrawingContainer = React.memo(() => {
     <Container>
       <Content>
         <Navigator stepName="DIARY" />
-        <Title>그림을 그리면 오늘을 차분하게 마무리하실 수 있을거에요.</Title>
+        <Title>Drawing will relieve today's negative feelings. Please draw an object that can represent today.</Title>
         <CanvasWrapper>
           <Canvas operations={operations} onChange={onChange} />
         </CanvasWrapper>
         <ButtonWrapper>
-          <StyledButton color={ButtonColor.ORANGE}>다음</StyledButton>
+          <StyledButton color={ButtonColor.ORANGE}>Next</StyledButton>
         </ButtonWrapper>
+        <Guess>
+          {guess && (
+            <>
+              It looks like <span>{guess}</span>
+            </>
+          )}
+        </Guess>
       </Content>
     </Container>
   );
@@ -96,6 +106,18 @@ const StyledButton = styled(Button)`
   height: 36px;
   font-size: 16px;
   margin-top: 61px;
+`;
+
+const Guess = styled.div`
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+
+  span {
+    font-size: 18px;
+    font-weight: bold;
+    color: ${Colors.orange};
+  }
 `;
 
 export default DrawingContainer;
